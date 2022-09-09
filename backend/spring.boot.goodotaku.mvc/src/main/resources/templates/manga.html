@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:rel="stylesheet" th:href="@{/css/w3.css}"/>
+    <title>Sakila - Ville</title>
+    <style>
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        li {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        li a:hover:not(.active) {
+            background-color: #111;
+        }
+
+        .active {
+            background-color: #04AA6D;
+        }
+    </style>
+</head>
+
+<body>
+<ul>
+    <li><a th:href="@{/index}">Home</a></li>
+    <li><a th:href="@{/mangas/list}">Manga</a></li>
+    <li><a th:href="@{/animes/list}">Anime</a></li>
+    <li><a th:href="@{/users}">Utilisateur</a></li>
+    <li style="float:right">
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Déconnexion" class="active"/>
+        </form></li>
+</ul>
+
+<div class="card w3-padding-16">
+    <a href="/animu/${animes.id}">
+        <img class="card-img-top" width="300" height="400"
+             th:src="${manga.img}"
+        />
+    </a>
+    <h1><p th:text="${manga.title}" /></h1>
+    <p th:text="'Année : ' +${manga.year}" />
+    <p class="price">
+    <p th:text="'Auteur : ' +${manga.author}" />
+    </p>
+    <p>
+    <h2>Description</h2>
+    <p th:text="${manga.description}" /></p>
+
+    <a th:href="@{'/mangas/list/details/edit/' + ${manga.id}}" class="w3-button w3-block w3-dark-grey" >Modifier</a>
+</div>
+<br>
+<div class="w3-card-4 w3-third w3-margin">
+
+    <header class="w3-container w3-light-grey">
+        <h3>Genre</h3>
+    </header>
+
+    <div class="w3-container">
+        <div>
+            <th:block th:each="gen: ${manga.genres}">
+                <p th:text="${gen.name}" />
+            </th:block>
+        </div>
+    </div>
+</div>
+
+<div class="w3-card-4 w3-half w3-right w3-margin">
+
+    <header class="w3-container w3-light-grey">
+        <h3>Commentaires</h3>
+    </header>
+
+    <div class="w3-container">
+        <div class="ui-icon-star">
+            <th:block th:each="rev: ${manga.review}">
+                <p th:text="${rev.review}" />
+                <p th:text="'Note : ' + ${rev.note} + '/5'" />
+                <p><a th:href="@{'/mangas/list/details/delete/' + ${rev.id}}" class="w3-button w3-red w3-round-large">Supprimer</a></p>
+                <hr>
+            </th:block>
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+</html>

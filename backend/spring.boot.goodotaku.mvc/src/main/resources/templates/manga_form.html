@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:rel="stylesheet" th:href="@{/css/w3.css}"/>
+    <style>
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        li {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        li a:hover:not(.active) {
+            background-color: #111;
+        }
+
+        .active {
+            background-color: #04AA6D;
+        }
+    </style>
+</head>
+
+<body>
+<ul>
+    <li><a th:href="@{/index}">Home</a></li>
+    <li><a th:href="@{/mangas/list}">Manga</a></li>
+    <li><a th:href="@{/animes/list}">Anime</a></li>
+    <li><a th:href="@{/users}">Utilisateur</a></li>
+    <li style="float:right">
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Déconnexion" class="active"/>
+        </form></li>
+</ul>
+<div class="container text-center">
+    <header class="w3-container w3-blue w3-center">
+        <h1>Modification d'un manga</h1>
+    </header>
+    <form th:action="@{/manga/save}" th:object="${manga}"
+          method="put" style="max-width: 600px; margin: 0 auto;" class="w3-padding-top-32">
+        <input type="hidden" th:field="*{id}" />
+        <div class="w3-card-4">
+
+            <header class="w3-container w3-light-grey">
+            </header>
+
+            <div class="w3-container">
+                <p>
+                    <label class="w3-text-teal"><b>Titre : </b></label>
+                    <input type="text" th:field="*{title}" class="form-control" required />
+                </p>
+                <hr>
+                <img th:src="${manga.img}" alt="Avatar" class="w3-left w3-circle" width="100" height="100">
+                <p>
+                    <label class="w3-text-teal"><b>Url image : </b></label>
+                    <input type="text" th:field="*{img}" class="form-control" required />
+                </p>
+                <p>
+                    <label class="w3-text-teal"><b>Auteur : </b></label>
+                    <input type="text" th:field="*{author}" class="form-control"
+                           required minlength="2" maxlength="20"/>
+                </p>
+                <br>
+                <p>
+                    <label class="w3-text-teal"><b>Description : </b></label>
+                    <br>
+                    <textarea type="text" th:field="*{description}" class="form-control"
+                           required minlength="2" maxlength="200" size="50" style="height: 250px; width: 500px;"/>
+                </p>
+                <p>
+                    <label class="w3-text-teal"><b>Année de création : </b></label>
+                    <input type="number" th:field="*{year}" class="form-control"
+                           required minlength="2" maxlength="20"/>
+                </p>
+                <p>
+                    <label class="w3-text-teal"><b>Genre : </b></label>
+                    <br>
+                    <th:block th:each="genre: ${listGenres}">
+                        <input type="checkbox" th:field="*{genres}"
+                                th:value="${genre.id}" class="w3-check" />
+                        <label th:text="${genre.name}"></label>
+                        <br>
+                    </th:block>
+                </p>
+            </div>
+            <button type="submit" class="w3-button w3-block w3-dark-grey">Valider</button>
+                <input type="hidden" th:field="*{review}"
+                />
+
+        </div>
+    </form>
+</div>
+</body>
+</html>

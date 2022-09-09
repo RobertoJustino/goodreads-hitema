@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:rel="stylesheet" th:href="@{/css/w3.css}"/>
+    <style>
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        li {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        li a:hover:not(.active) {
+            background-color: #111;
+        }
+
+        .active {
+            background-color: #04AA6D;
+        }
+    </style>
+</head>
+
+<body>
+<ul>
+    <li><a th:href="@{/index}">Home</a></li>
+    <li><a th:href="@{/mangas/list}">Manga</a></li>
+    <li><a th:href="@{/animes/list}">Anime</a></li>
+    <li><a th:href="@{/users}">Utilisateur</a></li>
+    <li style="float:right">
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Déconnexion" class="active"/>
+        </form></li>
+</ul>
+<div class="container text-center">
+    <header class="w3-container w3-blue w3-center">
+        <h1>Modification d'un Utilisateur</h1>
+    </header>
+    <form th:action="@{/users/save}" th:object="${user}"
+          method="put" style="max-width: 600px; margin: 0 auto;" class="w3-padding-top-32">
+        <input type="hidden" th:field="*{id}" />
+        <div class="w3-card-4">
+
+            <header class="w3-container w3-light-grey">
+            </header>
+
+            <div class="w3-container">
+                <p>
+                    <label class="w3-text-teal"><b>Email : </b></label>
+                    <input type="text" th:field="*{email}" class="form-control" required />
+                </p>
+                <p>
+                    <label class="w3-text-teal"><b>Username : </b></label>
+                    <input type="text" th:field="*{username}" class="form-control"
+                           required minlength="2" maxlength="20"/>
+                </p>
+                <hr>
+                <p>
+                    <label class="w3-text-teal"><b>Roles : </b></label>
+                    <br>
+                    <th:block th:each="role: ${listRoles}">
+                        <input type="checkbox" th:field="*{roles}"
+                               th:value="${role.id}" class="w3-check" />
+                        <label th:text="${role.name}"></label>
+                        <br>
+                    </th:block>
+                </p>
+            </div>
+            <button type="submit" class="w3-button w3-block w3-dark-grey">Valider</button>
+            <input type="hidden" th:field="*{reviewsMangas}"
+            />
+            <input type="hidden" th:field="*{reviewsAnimes}"
+            />
+
+        </div>
+    </form>
+</div>
+</body>
+</html>

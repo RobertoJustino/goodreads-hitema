@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:rel="stylesheet" th:href="@{/css/w3.css}"/>
+    <title></title>
+    <style>
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        li {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        li a:hover:not(.active) {
+            background-color: #111;
+        }
+
+        .active {
+            background-color: #04AA6D;
+        }
+    </style>
+</head>
+
+<body>
+<ul>
+    <li><a th:href="@{/index}">Home</a></li>
+    <li><a th:href="@{/mangas/list}">Manga</a></li>
+    <li><a th:href="@{/animes/list}">Anime</a></li>
+    <li><a th:href="@{/users}">Utilisateur</a></li>
+    <li style="float:right">
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Déconnexion" class="active"/>
+        </form></li>
+</ul>
+<header class="w3-container w3-blue w3-center">
+    <h1>Liste des animés</h1>
+</header>
+<p>
+<form th:action="@{/animes/list}" class="w3-container w3-padding-top-32">
+    <label class="w3-text-teal"><b>Filtre</b></label>
+    <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}">
+
+    <input type="submit" value="Recherche" class="w3-btn w3-blue-grey"/>
+    <input type="button" value="Clear" class="w3-btn w3-blue-grey" id="btnClear" onclick="clearSearch()" />
+</form>
+<br>
+<a th:href="@{/animes/create}"  class="w3-button w3-circle w3-blue w3-right	w3-margin">+</a>
+<br>
+<table class="w3-table-all w3-card-4">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th></th>
+        <th>Titre</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="ans : ${animes}">
+        <td th:text="${ans.id}"></td>
+        <td><img th:src="${ans.imgSrc}" width="75" height="100">
+        </td>
+        <td th:text="${ans.title}"></td>
+        <td th:text="${ans.description}"></td>
+        <td><a th:href="@{'/animes/list/details/' + ${ans.id}}" class="w3-button w3-white w3-border w3-border-green w3-round-large">Détails</a></td>
+        <td><a th:href="@{'/animes/list/delete/' + ${ans.id}}" class="w3-button w3-white w3-border w3-border-red w3-round-large">Supprimer</a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
+<script type="text/javascript">
+    function clearSearch() {
+        window.location = "[[@{/animes/list}]]";
+    }
+</script>
